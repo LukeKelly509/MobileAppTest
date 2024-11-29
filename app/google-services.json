@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1053321365822",
+    "project_id": "assignment2tus",
+    "storage_bucket": "assignment2tus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053321365822:android:081622035ffcc449c9446f",
+        "android_client_info": {
+          "package_name": "com.example.assignment2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnBSZJ21PWSQFlSHywiqdW9adwn5lQKlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
