@@ -9,4 +9,10 @@ class AccountDetailsViewModel {
         firebase.signOut()
         navController.navigate("login")
     }
+
+    fun deleteUser(navController: NavController){
+        val firebaseCurrentUser = FirebaseAuth.getInstance().currentUser
+        firebaseCurrentUser?.delete()
+        navController.navigate("login")
+    }
 }

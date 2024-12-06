@@ -61,14 +61,14 @@ class MainActivity : ComponentActivity() {
                     composable("contactPage") {
                         contactPage(navController)
                     }
-                    composable("googleMaps"){
-                        googleMaps(navController)
+                    composable("googleMapsPage"){
+                        googleMapsPage(navController)
                     }
                     composable("favoritesPage"){
                         favoritesPage(navController)
                     }
-                    composable("notificationsPage"){
-                        notificationsPage(navController)
+                    composable("leaderboardPage"){
+                        leaderboardPage(navController)
                     }
                     composable("categoryPage"){
                         categoryPage(navController)

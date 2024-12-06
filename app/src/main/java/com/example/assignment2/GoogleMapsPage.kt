@@ -9,9 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.example.assignment2.Models.GoogleMapsPageViewModel
 
 @Composable
-fun googleMaps(navController: NavController){
+fun googleMapsPage(navController: NavController){
+
+    GoogleMapsPageViewModel().googleMap()
 
     Box(modifier = Modifier.fillMaxSize()) {
         MyTopBar(
