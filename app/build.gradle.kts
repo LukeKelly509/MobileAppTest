@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.google.gms.google.services)
+    id("com.google.devtools.ksp") version "2.0.0-1.0.22"
 }
 
 android {
@@ -42,11 +43,15 @@ android {
 
 dependencies {
 
+    implementation("androidx.room:room-ktx:2.5.0")
+    implementation ("androidx.room:room-ktx:2.5.0")
+    implementation ("androidx.room:room-runtime:2.5.0")
     implementation ("com.google.maps.android:maps-compose:2.7.0")
     implementation ("com.google.android.gms:play-services-maps:18.0.2")
     implementation ("androidx.navigation:navigation-compose:2.5.0")
     implementation ("androidx.compose.animation:animation:1.4.0")
     implementation ("androidx.compose.material:material-icons-extended:1.4.0")
+    ksp("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -62,6 +67,29 @@ dependencies {
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.play.services.maps)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.litert.support.api)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.inappmessaging.display)
+    implementation(libs.androidx.room.common)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    implementation("androidx.room:room-runtime:2.5.0")
+    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("com.google.maps.android:maps-compose:2.7.0")
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("androidx.navigation:navigation-compose:2.5.0")
+    implementation("androidx.compose.animation:animation:1.4.0")
+    implementation("androidx.compose.material:material-icons-extended:1.4.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.inappmessaging.display)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

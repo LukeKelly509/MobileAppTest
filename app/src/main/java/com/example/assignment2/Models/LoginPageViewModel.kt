@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginPageViewModel : ViewModel() {
-
     fun validLoginEmail(email: String): Boolean {
         val emailRegex = Regex("K00[0-9]+@student\\.tus\\.ie")
         return email.isNotEmpty() && email.matches(emailRegex)

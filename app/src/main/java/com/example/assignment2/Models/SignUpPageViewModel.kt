@@ -1,8 +1,10 @@
 package com.example.assignment2.Models
 
+import androidx.compose.material3.Text
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SignUpPageViewModel : ViewModel() {
     fun validSignUpEmail(email: String): Boolean {
@@ -25,7 +27,6 @@ class SignUpPageViewModel : ViewModel() {
                 if (task.isSuccessful) {
                     navController.navigate("login")
                 } else {
-
                 }
 
             }

@@ -71,10 +71,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
 import com.example.assignment2.Bars.backAppBar
 import com.example.assignment2.Models.AccountDetailsViewModel
+import com.example.assignment2.Models.LoginPageViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.userProfileChangeRequest
 
 @Composable
 fun accountDetails(navController: NavController) {

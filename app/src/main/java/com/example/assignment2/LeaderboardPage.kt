@@ -3,15 +3,12 @@ package com.example.assignment2
 import Bars.MyBottomBar
 import Bars.MyTopBar
 import android.content.res.Configuration
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,8 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -34,7 +29,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -42,13 +37,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -62,38 +51,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-data class CategoryItem(
-    val name: String
-)
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun homePage(navController: NavController) {
+fun leaderboardPage(navController: NavController, scope: CoroutineScope, drawerState: DrawerState) {
     val tusGold = Color(0xFFA39461)
-    val configuration = LocalConfiguration.current
-    var categoryItems by remember { mutableStateOf<List<CategoryItem>>(emptyList()) }
-    val firestore = FirebaseFirestore.getInstance()
-    val tabletView = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
     val homePageActive = navController.currentDestination?.route == "homePage"
     val googleMapsPageActive = navController.currentDestination?.route == "googleMapsPage"
     val favoritesPageActive = navController.currentDestination?.route == "favoritesPage"
     val leaderboardPageActive = navController.currentDestination?.route == "leaderboardPage"
+    val configuration = LocalConfiguration.current
+    val tabletView = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    firestore.collection("categories")
-        .orderBy("name")
-        .get()
-        .addOnSuccessListener { result ->
-            categoryItems = result.documents.map { document ->
-                CategoryItem(document.getString("name") ?: "")
-            }
-        }
-        .addOnFailureListener {
-            categoryItems = emptyList()
-        }
+//    FirebaseFirestore.getInstance()
+//        .collection("leaderboard")
+//        .whereEqualTo("categoryID", chosenCategory)
+//        .get()
+//        .addOnSuccessListener { documents ->
+//            for (document in documents) {
+//                val email = document.getString("email") ?: ""
+//            }
+//        }
+//        .addOnFailureListener { exception ->
+//        }
 
     //https://www.youtube.com/watch?v=2pGTSiqnW90
     ModalNavigationDrawer(
@@ -168,7 +149,9 @@ fun homePage(navController: NavController) {
                                 },
                                 modifier = Modifier
                                     .padding(NavigationDrawerItemDefaults.ItemPadding),
-                                colors = NavigationDrawerItemDefaults.colors(backgroundColor)
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.White
+                                )
                             )
 
                             NavigationDrawerItem(
@@ -196,9 +179,10 @@ fun homePage(navController: NavController) {
                                     )
                                 },
                                 modifier = Modifier
-                                    .background(Color.White)
                                     .padding(NavigationDrawerItemDefaults.ItemPadding),
-                                colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.White)
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.White
+                                )
                             )
 
                             NavigationDrawerItem(
@@ -226,9 +210,10 @@ fun homePage(navController: NavController) {
                                     )
                                 },
                                 modifier = Modifier
-                                    .background(Color.White)
                                     .padding(NavigationDrawerItemDefaults.ItemPadding),
-                                colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.White)
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.White
+                                )
                             )
 
                             NavigationDrawerItem(
@@ -256,9 +241,8 @@ fun homePage(navController: NavController) {
                                     )
                                 },
                                 modifier = Modifier
-                                    .background(Color.White)
                                     .padding(NavigationDrawerItemDefaults.ItemPadding),
-                                colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.White)
+                                colors = NavigationDrawerItemDefaults.colors(backgroundColor)
                             )
 
                             NavigationDrawerItem(
@@ -285,8 +269,10 @@ fun homePage(navController: NavController) {
                                         tint = Color.Black,
                                     )
                                 },
-                                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding).background(Color.White),
-                                colors = NavigationDrawerItemDefaults.colors(unselectedContainerColor = Color.White)
+                                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                                colors = NavigationDrawerItemDefaults.colors(
+                                    unselectedContainerColor = Color.White
+                                )
                             )
 
                             NavigationDrawerItem(
@@ -351,94 +337,86 @@ fun homePage(navController: NavController) {
         },
         drawerState = drawerState
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-
-            if (!tabletView) {
+        if (!tabletView) {
+            Box(modifier = Modifier.fillMaxSize()) {
                 MyTopBar(
-                    scope = scope,
                     drawerState = drawerState,
+                    scope = scope,
                     navController = navController,
                     modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-
-            if(!tabletView) {
-                Spacer(modifier = Modifier.height(30.dp))
-            }
-
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                contentPadding = PaddingValues(vertical = 8.dp)
-            ) {
-                item {
-                    Text(
-                        text = "Select your category!",
-                        style = TextStyle(
-                            fontSize = 24.sp,
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold
-                        ),
-                    )
-                }
-
-                if (categoryItems.isNotEmpty()) {
-                    items(categoryItems) { category ->
-                        categoryCard(
-                            categoryText = category.name,
-                            navController = navController,
-                            chosenCategory = category.name
-                        )
-                    }
-                } else {
-
-                }
-            }
-
-            if (!tabletView) {
-                MyBottomBar(
-                    navController = navController,
-                    modifier = Modifier
+                        .align(Alignment.TopCenter)
                         .fillMaxWidth()
                 )
             }
         }
-    }
-}
 
-@Composable
-fun categoryCard(categoryText: String, navController: NavController, chosenCategory: String) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .clickable {
-                navController.navigate("categoryPage/$chosenCategory")
-            },
-//            .padding(8.dp),
-        colors = CardDefaults.cardColors(Color(0xFFD8CAB8))
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-//                .padding(horizontal = 16.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(80.dp))
+
             Text(
-                text = categoryText,
+                text = "Leaderboard",
                 style = TextStyle(
                     fontSize = 24.sp,
                     color = Color.Black,
                     fontWeight = FontWeight.Bold
                 )
             )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            if (!tabletView) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    MyBottomBar(
+                        navController = navController,
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .fillMaxWidth()
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun leaderboardCard(title: String, message: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(100.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFD8CAB8)),
+    ) {
+        Box(
+            contentAlignment = Alignment.CenterStart,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = title,
+                        fontSize = 20.sp,
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = message,
+                        fontSize = 16.sp,
+                        style = MaterialTheme.typography.bodySmall.copy(color = Color.Gray)
+                    )
+                }
+            }
         }
     }
 }
