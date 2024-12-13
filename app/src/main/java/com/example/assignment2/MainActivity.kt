@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 val favorites = remember { mutableListOf<String>() }
                 NavHost(
                     navController = navController,
-                    startDestination = "homePage"
+                    startDestination = "login"
                 ) {
                     composable("login") {
                         login(navController)
